@@ -6,9 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TicTacToeLogin extends JFrame {
-    private JTextField playerXTextField;
-    private JTextField playerOTextField;
-    private JButton startButton;
+    private final JTextField playerXTextField;
+    private final JTextField playerOTextField;
 
     public TicTacToeLogin() {
         setTitle("Tic-Tac-Toe Login");
@@ -33,7 +32,7 @@ public class TicTacToeLogin extends JFrame {
         playerOTextField = new JTextField();
         add(playerOTextField);
 
-        startButton = new JButton("Start Game");
+        JButton startButton = new JButton("Start Game");
         startButton.setForeground(Color.BLACK); // Text color
         startButton.setBackground(Color.CYAN); // Button color
         startButton.setFont(new Font("Consolas", Font.BOLD, 12)); // Make text bold

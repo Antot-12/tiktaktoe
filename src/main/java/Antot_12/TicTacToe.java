@@ -11,67 +11,77 @@ public class TicTacToe extends JFrame {
     private int turnCount = 0;
     private final String playerX;
     private final String playerO;
+    private int winsX = 0;
+    private int winsO = 0;
 
     public TicTacToe(String playerX, String playerO) {
         this.playerX = playerX;
         this.playerO = playerO;
+        initializeWindow();
+        initializeButtons();
+    }
 
+    private void initializeWindow() {
         setTitle("Tic-Tac-Toe: " + playerX + " vs " + playerO);
         setSize(300, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.BLACK);
-
         panel = new JPanel();
         panel.setLayout(new GridLayout(3, 3, 5, 5));
         panel.setBackground(Color.BLACK);
         add(panel);
-
-        initializeButtons();
     }
+
     private void initializeButtons() {
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton();
-            buttons[i].setFont(new Font("Consolas", Font.BOLD, 40));
-            buttons[i].setForeground(Color.CYAN); // Змінити колір тексту кнопок на бірюзовий
+            buttons[i].setFont(new Font("Arial", Font.BOLD, 40));
+            buttons[i].setForeground(Color.CYAN);
             buttons[i].setBackground(Color.BLACK);
-            buttons[i].addActionListener(e -> {
-                JButton clickedButton = (JButton) e.getSource();
-                clickedButton.setText(turn ? "X" : "O");
-
-                if (clickedButton.getText().equals("X") || clickedButton.getText().equals("O")) {
-                    clickedButton.setForeground(Color.CYAN); // Бірюзовий колір
-                }
-                clickedButton.setEnabled(false);
-                turnCount++;
-                checkForWin();
-                turn = !turn;
-            });
+            buttons[i].addActionListener(e -> buttonClicked((JButton) e.getSource()));
             panel.add(buttons[i]);
         }
     }
 
-
-
+    private void buttonClicked(JButton button) {
+        button.setText(turn ? "X" : "O");
+        button.setForeground(Color.CYAN);
+        button.setEnabled(false);
+        turnCount++;
+        checkForWin();
+        turn = !turn;
+    }
 
     private void checkForWin() {
         if (turnCount >= 5 && (checkRows() || checkColumns() || checkDiagonals())) {
-            JOptionPane.showMessageDialog(this, "Game Over. " + (turn ? playerX + " (X)" : playerO + " (O)") + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            if (turn) {
+                winsX++;
+            } else {
+                winsO++;
+            }
+            JOptionPane.showMessageDialog(this, "Game Over. \n" + (turn ? playerX + " (X)" : playerO + " (O)") + " wins!\n" + getScores(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
             askForAnotherRound();
         } else if (turnCount == 9) {
-            JOptionPane.showMessageDialog(this, "It's a draw!", "Draw", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "It's a draw!\n" + getScores(), "Draw", JOptionPane.INFORMATION_MESSAGE);
             askForAnotherRound();
         }
     }
 
+    private String getScores() {
+        return "\n\nScores: \n" + playerX + " (X): " + winsX + "\n" + playerO + " (O): " + winsO;
+    }
+
     private void askForAnotherRound() {
-        int response = JOptionPane.showConfirmDialog(this, "Would you like to play another round?", "Play Again?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(this, "Would you like to play another round?\n" + getScores(), "Play Again?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             resetGame();
         } else {
-            dispose(); // Close the game window
+            dispose();
         }
     }
+
+
 
     private boolean checkRows() {
         for (int i = 0; i < 9; i += 3) {
