@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 public class TicTacToe extends JFrame {
     private JPanel panel;
     private JButton[] buttons = new JButton[9];
-    private boolean turn = true; // true for X, false for O
+    private boolean turn = true; // true for X's turn, false for O's
     private int turnCount = 0;
     private final String playerX;
     private final String playerO;
@@ -29,17 +29,19 @@ public class TicTacToe extends JFrame {
 
         initializeButtons();
     }
-
     private void initializeButtons() {
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton();
-            buttons[i].setFont(new Font("Arial", Font.BOLD, 40));
-            buttons[i].setForeground(Color.CYAN);
+            buttons[i].setFont(new Font("Consolas", Font.BOLD, 40));
+            buttons[i].setForeground(Color.CYAN); // Змінити колір тексту кнопок на бірюзовий
             buttons[i].setBackground(Color.BLACK);
             buttons[i].addActionListener(e -> {
                 JButton clickedButton = (JButton) e.getSource();
                 clickedButton.setText(turn ? "X" : "O");
-                clickedButton.setForeground(Color.CYAN);
+
+                if (clickedButton.getText().equals("X") || clickedButton.getText().equals("O")) {
+                    clickedButton.setForeground(Color.CYAN); // Бірюзовий колір
+                }
                 clickedButton.setEnabled(false);
                 turnCount++;
                 checkForWin();
@@ -49,13 +51,25 @@ public class TicTacToe extends JFrame {
         }
     }
 
+
+
+
     private void checkForWin() {
         if (turnCount >= 5 && (checkRows() || checkColumns() || checkDiagonals())) {
             JOptionPane.showMessageDialog(this, "Game Over. " + (turn ? playerX + " (X)" : playerO + " (O)") + " wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            resetGame();
+            askForAnotherRound();
         } else if (turnCount == 9) {
             JOptionPane.showMessageDialog(this, "It's a draw!", "Draw", JOptionPane.INFORMATION_MESSAGE);
+            askForAnotherRound();
+        }
+    }
+
+    private void askForAnotherRound() {
+        int response = JOptionPane.showConfirmDialog(this, "Would you like to play another round?", "Play Again?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
             resetGame();
+        } else {
+            dispose(); // Close the game window
         }
     }
 

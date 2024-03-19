@@ -19,7 +19,7 @@ public class TicTacToeLogin extends JFrame {
 
         JLabel playerXLabel = new JLabel(" Player X Name:");
         playerXLabel.setForeground(Color.CYAN);
-        playerXLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        playerXLabel.setFont(new Font("Consolas", Font.BOLD, 12));
         add(playerXLabel);
 
         playerXTextField = new JTextField();
@@ -27,7 +27,7 @@ public class TicTacToeLogin extends JFrame {
 
         JLabel playerOLabel = new JLabel(" Player O Name:");
         playerOLabel.setForeground(Color.CYAN);
-        playerOLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        playerOLabel.setFont(new Font("Consolas", Font.BOLD, 12));
         add(playerOLabel);
 
         playerOTextField = new JTextField();
@@ -36,7 +36,7 @@ public class TicTacToeLogin extends JFrame {
         startButton = new JButton("Start Game");
         startButton.setForeground(Color.BLACK); // Text color
         startButton.setBackground(Color.CYAN); // Button color
-        startButton.setFont(new Font("Arial", Font.BOLD, 12)); // Make text bold
+        startButton.setFont(new Font("Consolas", Font.BOLD, 12)); // Make text bold
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
